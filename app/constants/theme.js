@@ -10,6 +10,8 @@ export const COLORS = {
 
 export const SIZES = {
   base: 10,
+  width,
+  height,
 };
 
 const theme = { COLORS, SIZES };

@@ -1,4 +1,4 @@
-export default data = [
+const data = [
   {
     _id: "1",
     title: "Play The Beat",
@@ -15,8 +15,10 @@ export default data = [
   {
     _id: "3",
     title: "Capture The Moment",
-    decription:
+    description:
       "You are not alone. You have a unique hability to go to another world.",
     img: require("../../assets/images/Selfi.png"),
   },
 ];
+
+module.exports = { data };
