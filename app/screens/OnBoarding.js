@@ -27,15 +27,50 @@ export default function OnBoarding() {
     setCurrentPage(viewableItems[0].index);
   }, [viewableItems]);
 
+  const handleNext = () => {
+    if (currentPage == data.length - 1) return;
+
+    flatlistRef.current.scrollToIndex({
+      animate: true,
+      index: currentPage + 1,
+    });
+  };
+
+  const handleBack = () => {
+    if (currentPage == 0) return;
+
+    flatlistRef.current.scrollToIndex({
+      animate: true,
+      index: currentPage - 1,
+    });
+  };
+
+  handleSkipToEnd = () => {
+    flatlistRef.current.scrollToIndex({
+      animate: true,
+      index: data.length - 1,
+    });
+  };
+
   const renderTopSection = () => {
     return (
       <SafeAreaView>
         <View style={styles.containerTop}>
-          <TouchableOpacity style={styles.backBtn}>
-            <AntDesingIcons name="left" style={styles.antBtn} />
+          <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
+            <AntDesingIcons
+              name="left"
+              style={[styles.antBtn, { opacity: currentPage == 0 ? 0 : 1 }]}
+            />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.skipText}>Skip</Text>
+          <TouchableOpacity onPress={handleSkipToEnd}>
+            <Text
+              style={[
+                styles.skipText,
+                { opacity: currentPage == data.length - 1 ? 0 : 1 },
+              ]}
+            >
+              Skip
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -64,9 +99,21 @@ export default function OnBoarding() {
               ></View>
             ))}
           </View>
-          <TouchableOpacity style={styles.getStartedBtn}>
-            <AntDesingIcons name="right" style={styles.btnIconSt} />
-          </TouchableOpacity>
+          {currentPage != data.length - 1 ? (
+            <TouchableOpacity onPress={handleNext} style={styles.getStartedBtn}>
+              <AntDesingIcons name="right" style={styles.btnIconSt} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={handleNext}
+              style={styles.getStartedBtn2}
+            >
+              <Text style={{ color: "#FFF", fontSize: 17.5, marginRight: 5 }}>
+                Get Started
+              </Text>
+              <AntDesingIcons name="right" style={styles.btnIconSt2} />
+            </TouchableOpacity>
+          )}
         </View>
       </SafeAreaView>
     );
@@ -167,6 +214,19 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   btnIconSt: {
+    fontSize: 19,
+    color: COLORS.white,
+  },
+  getStartedBtn2: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 150,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: COLORS.primary,
+  },
+  btnIconSt2: {
     fontSize: 19,
     color: COLORS.white,
   },
